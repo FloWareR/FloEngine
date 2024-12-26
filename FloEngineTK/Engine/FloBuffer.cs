@@ -6,7 +6,7 @@ using FloEngineTK.Core.Management;
 
 namespace FloEngineTK.Engine
 {
-    internal class TextureTest(string windowTitle, uint intialWindowWidth, uint intialWindowHeight) : Game(windowTitle, intialWindowWidth, intialWindowHeight)
+    internal class FloBuffer(string windowTitle, uint intialWindowWidth, uint intialWindowHeight) : Game(windowTitle, intialWindowWidth, intialWindowHeight)
     {
         private readonly float[] Vertices = {
             //Positions         //TexCoords
@@ -16,14 +16,14 @@ namespace FloEngineTK.Engine
             -0.5f,  0.5f, 0.0f, 0.0f, 1.0f   //top left - White
         };
 
-        private uint[] _indices = { 
+        private uint[] _indices = {
             0, 1, 3,
             1, 2, 3
         };
 
-        private int _elementBufferObject;
-        private int _vertexBufferObject;
-        private int _vertexArrayObject;
+        private VertexBuffer? _vertexBuffer;
+        private VertexArray? _vertexArray;
+        private IndexBuffer? _indexBuffer;
 
         private Shader? _shader;
         private Texture2D? _texture;
@@ -36,22 +36,17 @@ namespace FloEngineTK.Engine
         protected override void LoadContent()
         {
             _shader = new(Shader.ParseShader("Resources/Shaders/Texture.glsl"), true);
-            _vertexBufferObject = GL.GenBuffer();
-            GL.BindBuffer(BufferTarget.ArrayBuffer, _vertexBufferObject);
-            GL.BufferData(BufferTarget.ArrayBuffer, Vertices.Length * sizeof(float), Vertices, BufferUsageHint.StaticDraw);
 
-            _vertexArrayObject = GL.GenVertexArray();
-            GL.BindVertexArray(_vertexArrayObject);
+            _vertexBuffer = new VertexBuffer(Vertices);
 
-            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 5 * sizeof(float), 0);
-            GL.EnableVertexAttribArray(0);
+            BufferLayout bufferLayout = new();
+            bufferLayout.Add<float>(3);
+            bufferLayout.Add<float>(2);
 
-            GL.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), 3 * sizeof(float));
-            GL.EnableVertexAttribArray(1);
+            _vertexArray = new();
+            _vertexArray.AddBuffer(_vertexBuffer, bufferLayout);
 
-            _elementBufferObject = GL.GenBuffer();
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, _elementBufferObject);
-            GL.BufferData(BufferTarget.ElementArrayBuffer, _indices.Length *  sizeof(uint), _indices, BufferUsageHint.StaticDraw);
+            _indexBuffer = new IndexBuffer(_indices);
 
             _texture = ResourceManager.Instance.LoadTexture("Resources/Textures/testTexture.jpg");
             _texture.Use();
@@ -67,7 +62,8 @@ namespace FloEngineTK.Engine
             GL.Clear(ClearBufferMask.ColorBufferBit);
             GL.ClearColor(Color4.RoyalBlue);
             _shader?.Use();
-            GL.BindVertexArray(_vertexArrayObject);
+            _indexBuffer?.Bind();
+            _vertexArray?.Bind();
             GL.DrawElements(PrimitiveType.Triangles, _indices.Length, DrawElementsType.UnsignedInt, 0);
         }
 

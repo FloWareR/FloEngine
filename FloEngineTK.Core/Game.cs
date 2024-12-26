@@ -1,4 +1,5 @@
-﻿using OpenTK.Graphics.OpenGL4;
+﻿using FloEngineTK.Core.Management;
+using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
@@ -21,11 +22,14 @@ namespace FloEngineTK.Core
             IntialWindowHeight = intialWindowHeight;
             _nativeWindowSettings.ClientSize = new Vector2i((int)intialWindowWidth, (int)intialWindowHeight);
             _nativeWindowSettings.Title = windowTitle;
+            _nativeWindowSettings.API = ContextAPI.OpenGL;
+
+            _gameWindowSettings.UpdateFrequency = 60.0;   
         }
 
         public void Run()
         {
-            using var gameWindow = new GameWindow(_gameWindowSettings, _nativeWindowSettings);
+            using var gameWindow = DisplayManager.Instance.CreateGameWindow(_gameWindowSettings, _nativeWindowSettings);
 
             Time time = new();
             gameWindow.Load += LoadContent;
