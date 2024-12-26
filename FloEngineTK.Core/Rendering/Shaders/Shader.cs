@@ -66,12 +66,12 @@ namespace FloEngineTK.Core.Rendering
 
         public void Use()
         {
-            if (Compiled)
+            if (!Compiled)
             {
-                GL.UseProgram(ProgramID);
+                Console.WriteLine("Shader has not been compiled");
                 return;
             }
-            Console.WriteLine("Shader has not been compiled");
+            GL.UseProgram(ProgramID);     
         }
 
         public static ShaderProgramSource ParseShader(string filePath)

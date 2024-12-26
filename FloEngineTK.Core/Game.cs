@@ -25,7 +25,8 @@ namespace FloEngineTK.Core
 
         public void Run()
         {
-            using GameWindow gameWindow = new GameWindow(_gameWindowSettings, _nativeWindowSettings);
+            using var gameWindow = new GameWindow(_gameWindowSettings, _nativeWindowSettings);
+
             Time time = new();
             gameWindow.Load += LoadContent;
             gameWindow.UpdateFrame += (FrameEventArgs eventArgs) =>

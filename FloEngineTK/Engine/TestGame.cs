@@ -5,21 +5,19 @@ using OpenTK.Mathematics;
 
 namespace FloEngineTK.Engine
 {
-    public class TestGame : Game
+    public class TestGame(string windowTitle, uint intialWindowWidth, uint intialWindowHeight) : Game(windowTitle, intialWindowWidth, intialWindowHeight)
     {
-        public TestGame(string windowTitle, uint intialWindowWidth, uint intialWindowHeight) : base(windowTitle, intialWindowWidth, intialWindowHeight) { }
-
         private readonly float[] Vertices =
-        {
-            -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,   // Bottom Left
-             0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,   // Bottom Right
-             0.0f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f,  // Top
+        {   //Vertex Position   //Colors
+            -0.5f, -0.5f, 0.0f, 0.5f, 0.1f, 0.1f,   // Bottom Left
+             0.5f, -0.5f, 0.0f, 0.5f, 0.1f, 0.1f,   // Bottom Right
+             0.0f,  0.5f, 0.0f, 0.5f, 0.1f, 0.1f,  // Top
         };
 
         private int _vertexBufferObject;
         private int _vertexArrayObject;
                 
-        private Shader _shader;
+        private Shader? _shader;
 
         protected override void Initialize()
         {
@@ -29,13 +27,14 @@ namespace FloEngineTK.Engine
         protected override void LoadContent()
         {
             _shader = new(Shader.ParseShader("Resources/Shaders/Default.glsl"), true);
+
             _vertexBufferObject = GL.GenBuffer();
             GL.BindBuffer(BufferTarget.ArrayBuffer, _vertexBufferObject);
             GL.BufferData(BufferTarget.ArrayBuffer, Vertices.Length * sizeof(float), Vertices, BufferUsageHint.StaticDraw);
 
             _vertexArrayObject = GL.GenVertexArray();
             GL.BindVertexArray(_vertexArrayObject);
-            
+
             GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 0);
             GL.EnableVertexAttribArray(0);
 
@@ -43,7 +42,6 @@ namespace FloEngineTK.Engine
             GL.EnableVertexAttribArray(1);
 
         }
-
 
         protected override void Update(Time Time)
         {
@@ -54,7 +52,7 @@ namespace FloEngineTK.Engine
         {
             GL.Clear(ClearBufferMask.ColorBufferBit);
             GL.ClearColor(Color4.RoyalBlue);
-            _shader.Use();
+            _shader?.Use();
             GL.BindVertexArray(_vertexArrayObject);
             GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
         }

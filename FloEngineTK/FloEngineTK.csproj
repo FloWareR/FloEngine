@@ -12,11 +12,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Resources\Shaders\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <None Update="Resources\Shaders\Texture.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\Shaders\Default.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Textures\testTexture.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

@@ -7,7 +7,7 @@ namespace FloEngineTK
     {
         static void Main(string[] args)
         {
-            Game testGame = new TestGame("DaveTheWizard", 1280, 720);
+            Game testGame = new TextureTest("DaveTheWizard", 1920, 1080);
             testGame.Run();
         }
     }
