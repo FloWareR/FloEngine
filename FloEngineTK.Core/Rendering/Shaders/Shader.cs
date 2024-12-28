@@ -1,5 +1,6 @@
 ﻿using FloEngineTK.Core.Rendering.Shaders;
 using OpenTK.Graphics.OpenGL4;
+using OpenTK.Mathematics;
 using System.Runtime.CompilerServices;
 
 
@@ -10,8 +11,8 @@ namespace FloEngineTK.Core.Rendering
         public int ProgramID { get; private set; }
         private ShaderProgramSource _shaderProgramSource { get; }
         public bool Compiled { get; private set; }
-
         private readonly IDictionary<string, int> _uniforms = new Dictionary<string, int>();
+
         public Shader(ShaderProgramSource shaderProgramSource, bool compile = false)
         {
             _shaderProgramSource = shaderProgramSource;
@@ -77,7 +78,6 @@ namespace FloEngineTK.Core.Rendering
             return true;
         }
 
-        public int GetUniformLocation(string uniformName) => _uniforms[uniformName];
         public void Use()
         {
             if (!Compiled)
@@ -87,6 +87,26 @@ namespace FloEngineTK.Core.Rendering
             }
             GL.UseProgram(ProgramID);     
         }
+
+        public int GetUniformLocation(string uniformName)
+        {
+            if (_uniforms.TryGetValue(uniformName, out var location))
+            {
+                return location;
+            }
+
+            Console.WriteLine($"Uniform '{uniformName}' not found in shader program.");
+            return -1;
+        }
+
+        public void SetMatrix4(string uniformName, Matrix4 matrix)
+        {
+            int location = GetUniformLocation(uniformName);
+            if (location != -1)
+            {
+                GL.UniformMatrix4(location, true, ref matrix);
+            }
+        } 
 
         public static ShaderProgramSource ParseShader(string filePath)
         {

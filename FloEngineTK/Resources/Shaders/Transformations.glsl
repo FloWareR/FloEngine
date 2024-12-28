@@ -10,12 +10,16 @@ out vec2 texCoord;
 out vec4 color;
 out float texIndex;
 
+uniform mat4 transform;
+uniform mat4 view;
+uniform mat4 projection;
+
 void main() 
 {
     color = vec4(aColor.rgb, 1.0);
     texIndex = aIndex;
     texCoord = aTexCoord;
-    gl_Position = vec4(aPosition.xyz, 1.0);  
+    gl_Position =  vec4(aPosition.xyz, 1.0) * transform;  
 }
 
 #shader fragment

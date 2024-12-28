@@ -1,4 +1,4 @@
-﻿using FloEngineTK.Engine;
+﻿using FloEngineTK.Implementations;
 using FloEngineTK.Core;
 
 namespace FloEngineTK
@@ -7,7 +7,7 @@ namespace FloEngineTK
     {
         static void Main(string[] args)
         {
-            Game testGame = new InputTest("DaveTheWizard", 1920, 1080);
+            Game testGame = new ObjectTest("DaveTheWizard", 1920, 1080);
             testGame.Run();
         }
     }

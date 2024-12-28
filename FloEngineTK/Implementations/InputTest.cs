@@ -7,6 +7,7 @@ using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using OpenTK.Windowing.Desktop;
+using FloEngineTK.Engine;
 
 namespace FloEngineTK.Implementations
 {
@@ -19,6 +20,7 @@ namespace FloEngineTK.Implementations
             -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f,  //bottom left - Blue
             -0.5f,  0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,  //top left - White
         };
+
 
         private uint[] _indices = {
             0, 1, 3,
@@ -45,7 +47,6 @@ namespace FloEngineTK.Implementations
             _vertexBuffer = new VertexBuffer(Vertices);
 
             BufferLayout bufferLayout = new();
-
             bufferLayout.Add<float>(3);
             bufferLayout.Add<float>(2);
             bufferLayout.Add<float>(3);
@@ -55,7 +56,7 @@ namespace FloEngineTK.Implementations
             _shader.Use();
             _vertexArray.AddBuffer(_vertexBuffer, bufferLayout);
 
-            _indexBuffer = new IndexBuffer(_indices);
+            _indexBuffer = new(_indices);
 
             var textureSamplerUniformLocation = _shader.GetUniformLocation("u_Texture[0]");
             int[] samplers = new int[2] { 0, 1 };
@@ -70,6 +71,11 @@ namespace FloEngineTK.Implementations
             if (InputHandler.IsKeyDown(Keys.Escape))
             {
                 _gameWindow?.Close();
+            }
+
+            foreach(var key in InputHandler.GetPressedKeys())
+            {
+                Console.WriteLine(key);
             }
         }
 

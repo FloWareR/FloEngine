@@ -12,6 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Resources\Shaders\Transformations.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\Shaders\MultiTexture.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
