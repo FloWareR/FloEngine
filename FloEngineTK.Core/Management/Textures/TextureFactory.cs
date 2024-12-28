@@ -8,10 +8,17 @@ namespace FloEngineTK.Core.Management
 {
     public static class TextureFactory
     {
+        private static int _textureCursor = 0;
         public static Texture2D Load(string textureName)
         {
             int handle = GL.GenTexture();
-            GL.ActiveTexture(TextureUnit.Texture0);
+            Enum.TryParse(typeof(TextureUnit), $"Texture{_textureCursor}", out var result);
+            if(result == null)
+            {
+                throw new Exception($"Exceeded max texture slot OpenGL can support");
+            }
+            TextureUnit textureUnit = ((TextureUnit)result);
+            GL.ActiveTexture(textureUnit);
             GL.BindTexture(TextureTarget.Texture2D, handle);
             using var image = new Bitmap(textureName);
             image.RotateFlip(RotateFlipType.RotateNoneFlipY);
@@ -27,7 +34,8 @@ namespace FloEngineTK.Core.Management
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
             GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
-            return new Texture2D(handle);
+            _textureCursor++;
+            return new Texture2D(handle, image.Width, image.Height, textureUnit);
         }
     }
 }

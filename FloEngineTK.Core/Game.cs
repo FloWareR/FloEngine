@@ -1,8 +1,10 @@
-﻿using FloEngineTK.Core.Management;
+﻿using FloEngineTK.Core.Input;
+using FloEngineTK.Core.Management;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
+using System.Threading.Channels;
 
 namespace FloEngineTK.Core
 {
@@ -31,6 +33,8 @@ namespace FloEngineTK.Core
         {
             using var gameWindow = DisplayManager.Instance.CreateGameWindow(_gameWindowSettings, _nativeWindowSettings);
 
+            InputHandler.Initialize(gameWindow);
+
             Time time = new();
             gameWindow.Load += LoadContent;
             gameWindow.UpdateFrame += (FrameEventArgs eventArgs) =>
@@ -50,11 +54,11 @@ namespace FloEngineTK.Core
             {
                 GL.Viewport(0, 0, gameWindow.Size.X, gameWindow.Size.Y);
             };
-
+            Initialize(gameWindow);
             gameWindow.Run();
         }
 
-        protected abstract void Initialize();
+        protected abstract void Initialize(GameWindow gameWindow);
         protected abstract void LoadContent();
         protected abstract void Update(Time time);
         protected abstract void Render(Time time);

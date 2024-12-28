@@ -2,8 +2,9 @@
 using FloEngineTK.Core.Rendering;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
+using OpenTK.Windowing.Desktop;
 
-namespace FloEngineTK.Engine
+namespace FloEngineTK.Implementations
 {
     public class TestGame(string windowTitle, uint intialWindowWidth, uint intialWindowHeight) : Game(windowTitle, intialWindowWidth, intialWindowHeight)
     {
@@ -19,9 +20,9 @@ namespace FloEngineTK.Engine
                 
         private Shader? _shader;
 
-        protected override void Initialize()
+        protected override void Initialize(GameWindow gameWindow)
         {
-            
+
         }
 
         protected override void LoadContent()

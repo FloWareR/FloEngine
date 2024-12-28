@@ -3,8 +3,9 @@ using FloEngineTK.Core.Rendering;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using FloEngineTK.Core.Management;
+using OpenTK.Windowing.Desktop;
 
-namespace FloEngineTK.Engine
+namespace FloEngineTK.Implementations
 {
     internal class FloBuffer(string windowTitle, uint intialWindowWidth, uint intialWindowHeight) : Game(windowTitle, intialWindowWidth, intialWindowHeight)
     {
@@ -28,7 +29,7 @@ namespace FloEngineTK.Engine
         private Shader? _shader;
         private Texture2D? _texture;
 
-        protected override void Initialize()
+        protected override void Initialize(GameWindow gameWindow)
         {
 
         }

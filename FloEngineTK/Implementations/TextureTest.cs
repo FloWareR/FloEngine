@@ -3,8 +3,9 @@ using FloEngineTK.Core.Rendering;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using FloEngineTK.Core.Management;
+using OpenTK.Windowing.Desktop;
 
-namespace FloEngineTK.Engine
+namespace FloEngineTK.Implementations
 {
     internal class TextureTest(string windowTitle, uint intialWindowWidth, uint intialWindowHeight) : Game(windowTitle, intialWindowWidth, intialWindowHeight)
     {
@@ -27,8 +28,7 @@ namespace FloEngineTK.Engine
 
         private Shader? _shader;
         private Texture2D? _texture;
-
-        protected override void Initialize()
+        protected override void Initialize(GameWindow gameWindow)
         {
 
         }
@@ -70,7 +70,5 @@ namespace FloEngineTK.Engine
             GL.BindVertexArray(_vertexArrayObject);
             GL.DrawElements(PrimitiveType.Triangles, _indices.Length, DrawElementsType.UnsignedInt, 0);
         }
-
-
     }
 }

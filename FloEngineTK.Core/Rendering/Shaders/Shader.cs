@@ -1,5 +1,6 @@
 ﻿using FloEngineTK.Core.Rendering.Shaders;
 using OpenTK.Graphics.OpenGL4;
+using System.Runtime.CompilerServices;
 
 
 namespace FloEngineTK.Core.Rendering
@@ -9,6 +10,8 @@ namespace FloEngineTK.Core.Rendering
         public int ProgramID { get; private set; }
         private ShaderProgramSource _shaderProgramSource { get; }
         public bool Compiled { get; private set; }
+
+        private readonly IDictionary<string, int> _uniforms = new Dictionary<string, int>();
         public Shader(ShaderProgramSource shaderProgramSource, bool compile = false)
         {
             _shaderProgramSource = shaderProgramSource;
@@ -60,10 +63,21 @@ namespace FloEngineTK.Core.Rendering
 
             GL.DeleteShader(vertexShaderId);
             GL.DeleteProgram(fragmentShaderId);
+
+            GL.GetProgram(ProgramID, GetProgramParameterName.ActiveUniforms, out var totalUniforms);
+
+            for(int i = 0; i < totalUniforms; i++)
+            {
+                string key = GL.GetActiveUniform(ProgramID, i, out _, out _);
+                int location = GL.GetUniformLocation(ProgramID, key);
+                _uniforms.Add(key, location);
+            }
+
             Compiled = true;
             return true;
         }
 
+        public int GetUniformLocation(string uniformName) => _uniforms[uniformName];
         public void Use()
         {
             if (!Compiled)
@@ -106,3 +120,4 @@ namespace FloEngineTK.Core.Rendering
         }
     }
 }
+ 
