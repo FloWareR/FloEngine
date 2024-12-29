@@ -7,17 +7,20 @@ namespace FloEngineTK.Engine
     {
         private List<IComponent> _components = new();
 
+        public String Name;
         public Vector3 WorldPosition { get; set; }
         public Vector3 ObjectScale { get; set; }
         public Vector3 WorldRotation { get; set; }
-        public BaseObject(Vector3 position, Vector3 scale)
+        public BaseObject(String name, Vector3 position, Vector3 scale)
         {
+            Name = name;
             WorldPosition = position;
             ObjectScale = scale;
         }
 
         public BaseObject()
         {
+            Name = "DefaultObject";
             WorldPosition = Vector3.Zero;
             ObjectScale = Vector3.One;
         }
