@@ -14,6 +14,9 @@ namespace FloEngineTK.Core
         protected uint IntialWindowWidth { get; set; }
         protected uint IntialWindowHeight { get; set; }
 
+        protected GameWindow? gameWindow;
+        
+
         private GameWindowSettings _gameWindowSettings = GameWindowSettings.Default;
         private NativeWindowSettings _nativeWindowSettings = NativeWindowSettings.Default;
 
@@ -31,7 +34,7 @@ namespace FloEngineTK.Core
 
         public void Run()
         {
-            using var gameWindow = DisplayManager.Instance.CreateGameWindow(_gameWindowSettings, _nativeWindowSettings);
+            gameWindow = DisplayManager.Instance.CreateGameWindow(_gameWindowSettings, _nativeWindowSettings);
 
             InputHandler.Initialize(gameWindow);
 
@@ -54,13 +57,18 @@ namespace FloEngineTK.Core
             {
                 GL.Viewport(0, 0, gameWindow.Size.X, gameWindow.Size.Y);
             };
-            Initialize(gameWindow);
+            Initialize();
             gameWindow.Run();
+
+            gameWindow.Dispose();
+            gameWindow = null;
         }
 
-        protected abstract void Initialize(GameWindow gameWindow);
+        protected abstract void Initialize();
         protected abstract void LoadContent();
         protected abstract void Update(Time time);
         protected abstract void Render(Time time);
+
+        public Vector2i ClientSize => gameWindow?.ClientSize ?? new Vector2i((int)IntialWindowWidth, (int)IntialWindowHeight);
     }
 }

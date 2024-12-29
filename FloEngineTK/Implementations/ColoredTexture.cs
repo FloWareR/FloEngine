@@ -29,7 +29,7 @@ namespace FloEngineTK.Implementations
         private Shader? _shader;
         private Texture2D? _texture;
 
-        protected override void Initialize(GameWindow gameWindow)
+        protected override void Initialize()
         {
 
         }

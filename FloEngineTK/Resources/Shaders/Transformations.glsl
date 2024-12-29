@@ -19,7 +19,7 @@ void main()
     color = vec4(aColor.rgb, 1.0);
     texIndex = aIndex;
     texCoord = aTexCoord;
-    gl_Position =  vec4(aPosition.xyz, 1.0) * transform;  
+    gl_Position =  vec4(aPosition.xyz, 1.0) * transform * projection;  
 }
 
 #shader fragment

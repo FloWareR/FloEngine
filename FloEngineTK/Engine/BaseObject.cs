@@ -19,13 +19,13 @@ namespace FloEngineTK.Engine
             _components.Add(component);
         }
 
-        public void Render()
+        public void Render(int windowWidth, int windowHeight)
         {
             foreach (var component in _components)
             {
                 if (component is ObjectRenderer renderer)
                 {
-                    renderer.Render();
+                    renderer.Render(windowWidth, windowHeight);
                 }
             }
         }

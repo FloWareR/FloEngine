@@ -57,14 +57,20 @@ namespace FloEngineTK.Engine
 
         }
 
-        public void Render()
+        public void Render(int windowWidth, int windowHeight)
         {
             Shader.Use();
+            
+            float aspectRation = (float)windowWidth / (float)windowHeight;
+            Matrix4 projection = Matrix4.CreateOrthographic(2.0f * aspectRation, 2.0f, -1.0f, 1.0f);
+
             var transform = Matrix4.Identity;
             Matrix4 modelMatrix = transform  * Matrix4.CreateTranslation(BaseObject.WorldPosition);
          
 
             Shader.SetMatrix4("transform", modelMatrix);
+            Shader.SetMatrix4("projection", projection);
+
 
             _vertexArray.Bind();
             _indexBuffer.Bind();

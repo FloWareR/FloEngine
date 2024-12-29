@@ -1,13 +1,10 @@
 ﻿using FloEngineTK.Core;
-using FloEngineTK.Core.Rendering;
-using FloEngineTK.Core.Management;
 using FloEngineTK.Core.Input;
-
+using FloEngineTK.Core.Management;
+using FloEngineTK.Core.Rendering;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
-using OpenTK.Windowing.Desktop;
-using FloEngineTK.Engine;
 
 namespace FloEngineTK.Implementations
 {
@@ -31,13 +28,12 @@ namespace FloEngineTK.Implementations
         private VertexArray? _vertexArray;
         private IndexBuffer? _indexBuffer;
 
-        private GameWindow? _gameWindow;
 
         private Shader? _shader;
 
-        protected override void Initialize(GameWindow gameWindow)
+        protected override void Initialize()
         {
-            _gameWindow = gameWindow; 
+
         }
 
         protected override void LoadContent()
@@ -70,10 +66,10 @@ namespace FloEngineTK.Implementations
         {
             if (InputHandler.IsKeyDown(Keys.Escape))
             {
-                _gameWindow?.Close();
+                gameWindow?.Close();
             }
 
-            foreach(var key in InputHandler.GetPressedKeys())
+            foreach (var key in InputHandler.GetPressedKeys())
             {
                 Console.WriteLine(key);
             }

@@ -20,7 +20,7 @@ namespace FloEngineTK.Implementations
                 
         private Shader? _shader;
 
-        protected override void Initialize(GameWindow gameWindow)
+        protected override void Initialize()
         {
 
         }
