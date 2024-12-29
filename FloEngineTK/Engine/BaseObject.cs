@@ -8,10 +8,18 @@ namespace FloEngineTK.Engine
         private List<IComponent> _components = new();
 
         public Vector3 WorldPosition { get; set; }
-
-        public BaseObject(Vector3 position)
+        public Vector3 ObjectScale { get; set; }
+        public Vector3 WorldRotation { get; set; }
+        public BaseObject(Vector3 position, Vector3 scale)
         {
             WorldPosition = position;
+            ObjectScale = scale;
+        }
+
+        public BaseObject()
+        {
+            WorldPosition = Vector3.Zero;
+            ObjectScale = Vector3.One;
         }
 
         public void AddComponent(IComponent component)

@@ -1,12 +1,10 @@
 ﻿using FloEngineTK.Core;
 using FloEngineTK.Core.Rendering;
-using FloEngineTK.Core.Management;
 using FloEngineTK.Core.Input;
 
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
-using OpenTK.Windowing.Desktop;
 using FloEngineTK.Engine;
 
 namespace FloEngineTK.Implementations
@@ -26,24 +24,24 @@ namespace FloEngineTK.Implementations
         {
             _shader = new(Shader.ParseShader("Resources/Shaders/Transformations.glsl"), true);
 
-            BaseObject obj = new(new Vector3(-0.5f, 0f, 0));
-            ObjectRenderer objRen = new(obj, _shader);
-            obj.AddComponent(objRen);
-            _objects.Add(obj);
+            BaseObject obj1 = new(new Vector3(0.5f, 0f, 0f), new Vector3(1, 1, 1));
+            ObjectRenderer obj1Ren = new(obj1, _shader, "playerTest.png");
+            obj1.AddComponent(obj1Ren);
+            _objects.Add(obj1);
 
 
-            BaseObject obj2 = new(new Vector3(0.5f, 0f, 0f));
-            ObjectRenderer obj2Ren = new(obj2, _shader);
+            BaseObject obj2 = new(new Vector3(-0.5f, 0f, 0f), new Vector3(1, 1, 1));
+            ObjectRenderer obj2Ren = new(obj2, _shader, "enemyTest.png");
             obj2.AddComponent(obj2Ren);
             _objects.Add(obj2);
 
-            BaseObject obj3 = new(new Vector3(0f, 0f, 0f));
-            ObjectRenderer obj3Ren = new(obj3, _shader);
+            BaseObject obj3 = new(new Vector3(0f, .6f, 0f), new Vector3(1f, 3.5f, 1f));
+            ObjectRenderer obj3Ren = new(obj3, _shader, "wallTest.png");
             obj3.AddComponent(obj3Ren);
             _objects.Add(obj3);
 
-            BaseObject obj4 = new(new Vector3(0f, .5f, 0f));
-            ObjectRenderer obj4Ren = new(obj4, _shader);
+            BaseObject obj4 = new(new Vector3(0f, -.65f, 0f), new Vector3(1f, 3.5f, 1f));
+            ObjectRenderer obj4Ren = new(obj4, _shader, "wallTest.png");
             obj4.AddComponent(obj4Ren);
             _objects.Add(obj4);
         }

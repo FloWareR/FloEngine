@@ -3,7 +3,6 @@ using FloEngineTK.Core.Rendering;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using FloEngineTK.Core.Management;
-using OpenTK.Windowing.Desktop;
 
 namespace FloEngineTK.Implementations
 {

@@ -10,8 +10,10 @@ namespace FloEngineTK.Engine
     {
         private readonly BaseObject BaseObject;
         private readonly Shader Shader;
+        private Texture2D _texture;
 
-        private readonly float[] _vertices = {
+
+        private float[] _vertices = {
              //Positions        TexCoords   Color             Slot
              0.1f,  0.1f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f,  //top right 
              0.1f, -0.1f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f,  //bottom right 
@@ -28,10 +30,18 @@ namespace FloEngineTK.Engine
         private VertexArray _vertexArray;
         private IndexBuffer _indexBuffer;
 
-        public ObjectRenderer(BaseObject baseObject, Shader shader)
+        public ObjectRenderer(BaseObject baseObject, Shader shader, string defaultTexture = "squareDefault.png")
         {
             this.BaseObject = baseObject;
             this.Shader = shader;
+            var objectScale = baseObject.ObjectScale;
+
+            for (int i = 0; i < _vertices.Length; i += 9)
+            {
+                _vertices[i] *= objectScale.X;
+                _vertices[i + 1] *= objectScale.Y; 
+                _vertices[i + 2] *= objectScale.Z;
+            }
 
             _vertexBuffer = new VertexBuffer(_vertices);
 
@@ -51,16 +61,14 @@ namespace FloEngineTK.Engine
             int[] samplers = new int[2] { 0, 1 };
             GL.Uniform1(textureSamplerUniformLocation, 2, samplers);
 
-            ResourceManager.Instance.LoadTexture("Resources/Textures/testTexture.jpg");
-            ResourceManager.Instance.LoadTexture("Resources/Textures/testTexture2.png");
-
-
+            _texture = ResourceManager.Instance.LoadTexture($"Resources/Textures/{defaultTexture}");
         }
 
         public void Render(int windowWidth, int windowHeight)
         {
             Shader.Use();
-            
+            _texture.Use();
+
             float aspectRation = (float)windowWidth / (float)windowHeight;
             Matrix4 projection = Matrix4.CreateOrthographic(2.0f * aspectRation, 2.0f, -1.0f, 1.0f);
 
